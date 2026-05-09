@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo College Results</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        overflow-x: hidden;
+        position: relative;
+        background: #000;
+      }
+
+      /* BACKGROUND */
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+          url("./smca.webp");
+
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+      }
+
+      /* GLOW EFFECTS */
+
+      .circle {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.4;
+        z-index: -1;
+      }
+
+      .circle1 {
+        width: 220px;
+        height: 220px;
+        background: #00bfff;
+        top: -70px;
+        left: -70px;
+      }
+
+      .circle2 {
+        width: 260px;
+        height: 260px;
+        background: #7b2cff;
+        bottom: -90px;
+        right: -80px;
+      }
+
+      /* MAIN CARD */
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+
+        padding: 35px;
+        border-radius: 25px;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        backdrop-filter: blur(18px);
+
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+
+        color: white;
+      }
+
+      /* HEADER */
+
+      .main-header {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+
+      .main-header h1 {
+        font-size: clamp(24px, 5vw, 42px);
+
+        background: linear-gradient(90deg, #00c6ff, #ffffff, #7b2cff);
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        letter-spacing: 1px;
+      }
+
+      .main-header p {
+        color: #ddd;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      /* LOGO */
+
+      .logo {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: block;
+        margin: 20px auto;
+
+        border: 4px solid rgba(255, 255, 255, 0.4);
+
+        object-fit: cover;
+      }
+
+      /* INPUT SECTION */
+
+      .input-section {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .input-section input {
+        flex: 1;
+        min-width: 220px;
+
+        padding: 16px;
+
+        border: none;
+        outline: none;
+
+        border-radius: 14px;
+
+        background: rgba(255, 255, 255, 0.12);
+
+        color: white;
+
+        font-size: 16px;
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .input-section input::placeholder {
+        color: #ddd;
+      }
+
+      .input-section input:focus {
+        border: 1px solid #00bfff;
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+      }
+
+      /* BUTTON */
+
+      button {
+        padding: 16px 25px;
+
+        border: none;
+        border-radius: 14px;
+
+        background: linear-gradient(135deg, #00c6ff, #0059ff);
+
+        color: white;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 89, 255, 0.4);
+      }
+
+      /* RESULT BOX */
+
+      .result-box {
+        display: none;
+      }
+
+      /* STUDENT DETAILS */
+
+      .student-details {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+        gap: 18px;
+
+        margin-bottom: 25px;
+      }
+
+      .detail-card {
+        background: rgba(255, 255, 255, 0.08);
+
+        padding: 18px;
+
+        border-radius: 16px;
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .detail-card h3 {
+        color: #00c6ff;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .detail-card p {
+        font-size: 17px;
+        word-wrap: break-word;
+      }
+
+      .pass {
+        color: #00ff99;
+        font-weight: 700;
+      }
+
+      /* TABLE */
+
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 16px;
+      }
+
+      table {
+        width: 100%;
+        min-width: 550px;
+
+        border-collapse: collapse;
+
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      thead {
+        background: linear-gradient(135deg, #00c6ff, #0059ff);
+      }
+
+      thead th {
+        padding: 16px;
+        text-align: left;
+        font-size: 14px;
+        color: white;
+      }
+
+      tbody td {
+        padding: 16px;
+        color: #f1f1f1;
+        font-size: 14px;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      /* FOOTER */
+
+      .footer {
+        margin-top: 25px;
+        text-align: center;
+        color: #ccc;
+        font-size: 12px;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 22px;
+        }
+
+        .input-section {
+          flex-direction: column;
+        }
+
+        button {
+          width: 100%;
+        }
+
+        .logo {
+          width: 75px;
+          height: 75px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 18px;
+          border-radius: 20px;
+        }
+
+        .detail-card {
+          padding: 15px;
+        }
+
+        .detail-card p {
+          font-size: 15px;
+        }
+
+        table {
+          min-width: 500px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+
+    <div class="container">
+      <!-- HEADER -->
+
+      <div class="main-header">
+        <h1>Dr.SMCA UNIVERSITY RESULTS</h1>
+
+        <p>Official Examination Result Portal</p>
+      </div>
+
+      <!-- LOGO -->
+
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+        class="logo"
+        alt="logo"
+      />
+
+      <!-- INPUT -->
+
+      <div class="input-section">
+        <input
+          type="text"
+          id="usn"
+          placeholder="Enter University Seat Number"
+        />
+
+        <button onclick="showResult()">CHECK RESULT</button>
+      </div>
+
+      <!-- RESULT -->
+
+      <div class="result-box" id="resultBox">
+        <!-- STUDENT DETAILS -->
+
+        <div class="student-details">
+          <div class="detail-card">
+            <h3>USN</h3>
+            <p>1CC19PHDCS01</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Student Name</h3>
+            <p>PC Venugopal</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Final Result</h3>
+            <p class="pass">PASS</p>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Total Marks</th>
+                <th>Obtained Marks</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>PHD Viva</td>
+                <td>500</td>
+                <td>462</td>
+                <td class="pass">PASS</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+
+      <div class="footer">© 2026 Demo College Examination Department</div>
+    </div>
+
+    <script>
+      function showResult() {
+        let usn = document.getElementById("usn").value.trim().toUpperCase();
+
+        let resultBox = document.getElementById("resultBox");
+
+        if (usn === "1CC19PHDCS01") {
+          resultBox.style.display = "block";
+        } else {
+          alert("USN Not Found");
+
+          resultBox.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
